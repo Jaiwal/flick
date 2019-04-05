@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Flick</title>
+
+
+    <style>
+    
+      .output{
+          background-color: blueviolet;
+          height: 500px;
+          width: 500px;
+          border: 1px solid black;
+          overflow: hidden;
+          cursor: grab;
+       }
+
+       .box{
+           position: relative;
+           left: 50%;
+           top: 50%;
+           width: 100px;
+           height: 100px;
+           border-radius: 12px;
+           border: 1px solid black;
+
+       }
+      
+    
+    
+    
+    
+    
+    
+    
+    </style>
+</head>
+<body>
+    
+
+    <div class="message">
+        X:<span class="x">0</span>
+        Y:<span class="y">0</span>
+        Score: <span class='"s"'>0</span>
+    </div>
+
+<div class="output"></div>
+
+
+
+
+
+<script>
+     
+     const output=document.querySelector(".output");
+     const messageout=document.querySelectorAll(".message span");
+    let score=0;
+
+    output.addEventListener("mouseenter",function(){
+        output.style.backgroundColor="#d8133a";
+    })
+    output.addEventListener("mouseleave",function(){
+        output.style.backgroundColor="white";
+    })
+
+    output.addEventListener("mousemove",function(e){
+        console.log(e.x);
+        console.log(e.y);
+
+        messageout[0].innerHTML=e.x;
+        messageout[1].innerHTML=e.y;
+    })
+
+
+
+    document.addEventListener("DOMContentLoaded",function(){
+       
+      let div=document.createElement("div");
+      div.classList.add("box");
+      output.appendChild(div);
+      div.x=div.offsetLeft;
+      div.y=div.offsetTop;
+     // div.tempColor="#"+Math.random().toString(16).substr(-6);
+       div.tempColor="#112b54";
+      div.style.backgroundColor=div.tempColor;
+      // console.dir(div);
+
+       div.addEventListener("mouseenter",function(e){
+               div.style.backgroundColor="black";
+       })
+       div.addEventListener("mouseleave",function(e){
+               div.style.backgroundColor="#112b54";
+       })
+       div.addEventListener("click",function(e){
+               div.style.backgroundColor="#783ca3";
+               div.style.backgroundColor=div.textColor;
+
+
+               score++;
+               messageout[2].innerHTML=score;
+       })
+     div.steps=Math.random()*20;
+     div.direction=Math.floor(Math.random()*4);
+     window.requestAnimationFrame(move);
+    
+
+
+    })
+
+    function move()
+    {
+        let speed=Math.random()*2+3;
+        
+        const box=document.querySelector(".box");
+        let bounds=output.getBoundingClientRect();
+        //console.log(bounds);
+        box.steps--;
+        if(box.steps<0)
+        {
+           
+            box.direction=Math.floor(Math.random()* 4);
+            box.steps=Math.random()*20;
+        }
+        if(box.direction==0 && box.x<bounds.right-100)
+        {
+            box.x+=speed;
+        }
+        if(box.direction==1 && box.x>bounds.left-100)
+        {
+            box.x-=speed;
+        }
+        if(box.direction==2 && box.y<bounds.bottom-100)
+        {
+            box.y+=speed;
+        }
+        if(box.direction==3 && box.y>bounds.top-100)
+        {
+            box.y-=speed;
+        }
+
+        box.style.top=box.y+"px";
+        box.style.left=box.x+"px";
+
+        window.requestAnimationFrame(move);
+    }
+
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
